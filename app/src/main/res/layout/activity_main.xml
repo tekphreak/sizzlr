@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/zinc_900">
+
+    <!-- ── Header ─────────────────────────────────────────────────────────── -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="14dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.12"
+                android:text="CASTING CALL "
+                android:textColor="@color/white"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:letterSpacing="0.12"
+                android:text="ONLINE"
+                android:textColor="@color/amber_500"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/circle_green"
+            android:layout_marginEnd="6dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:letterSpacing="0.1"
+            android:text="STUDIO A"
+            android:textColor="@color/zinc_400"
+            android:textSize="11sp" />
+
+    </LinearLayout>
+
+    <!-- ── Camera Viewport (3:4 aspect ratio) ────────────────────────────── -->
+    <FrameLayout
+        android:id="@+id/viewportContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/black"
+        app:layout_constraintDimensionRatio="3:4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header">
+
+        <!-- Live camera preview (front camera shows mirrored by default) -->
+        <androidx.camera.view.PreviewView
+            android:id="@+id/viewFinder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:scaleType="fillCenter" />
+
+        <!-- Face alignment guide overlay -->
+        <org.chaosnet.sizzlr.FaceGuideView
+            android:id="@+id/faceGuide"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- REC / ON AIR indicator -->
+        <LinearLayout
+            android:id="@+id/recIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:layout_margin="12dp"
+            android:background="@drawable/rec_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="6dp"
+            android:visibility="gone">
+
+            <View
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:background="@drawable/circle_red_pulse" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:letterSpacing="0.15"
+                android:text="ON AIR"
+                android:textColor="#EF4444"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="monospace"
+                android:text="00:00"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <!-- ── Controls panel ────────────────────────────────────────────────── -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewportContainer">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/zinc_800"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Audition script teleprompter -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/script_box_bg"
+                    android:gravity="center"
+                    android:lineSpacingMultiplier="1.4"
+                    android:padding="20dp"
+                    android:paddingTop="28dp"
+                    android:text="&quot;Hi, my name is Michael, and I am reading for the role of the Lead Detective.&quot;"
+                    android:textColor="@color/zinc_200"
+                    android:textSize="17sp"
+                    android:textStyle="italic" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|center_horizontal"
+                    android:layout_marginTop="-1dp"
+                    android:background="@color/amber_500"
+                    android:letterSpacing="0.1"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="3dp"
+                    android:text="AUDITION SCRIPT"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <!-- ACTION (Record) button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnRecord"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="10dp"
+                android:enabled="false"
+                android:text="ACTION  (Record)"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/red_700"
+                app:cornerRadius="8dp"
+                app:iconGravity="textStart"
+                app:iconPadding="10dp" />
+
+            <!-- CUT (Stop) button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnStop"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginBottom="10dp"
+                android:text="CUT  (Stop)"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:backgroundTint="@color/zinc_700"
+                app:cornerRadius="8dp" />
+
+            <!-- Retake + Submit row -->
+            <LinearLayout
+                android:id="@+id/actionButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnRetake"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:text="Retake"
+                    android:textColor="@color/zinc_300"
+                    app:backgroundTint="@color/zinc_700"
+                    app:cornerRadius="8dp"
+                    app:strokeColor="@color/zinc_600"
+                    app:strokeWidth="1dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="0dp"
+                    android:layout_height="52dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Submit Tape"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:backgroundTint="@color/amber_600"
+                    app:cornerRadius="8dp" />
+
+            </LinearLayout>
+
+            <!-- Success card -->
+            <LinearLayout
+                android:id="@+id/successMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/success_bg"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:visibility="gone">
+
+                <View
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:background="@drawable/circle_green_filled" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Tape Submitted"
+                    android:textColor="#4ADE80"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:text="Your audition has been saved to your gallery."
+                    android:textColor="@color/zinc_400"
+                    android:textSize="12sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnNewClip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:text="Record Another Clip"
+                    android:textColor="@color/white"
+                    android:textSize="13sp"
+                    app:backgroundTint="@color/zinc_700"
+                    app:cornerRadius="20dp"
+                    app:strokeColor="@color/zinc_600"
+                    app:strokeWidth="1dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

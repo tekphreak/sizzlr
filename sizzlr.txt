@@ -1,0 +1,33 @@
+Sizzlr is a dedicated Android audition application designed for actors to record and submit video auditions directly to casting directors. The app serves as a digital bridge between performers and industry decision-makers, emphasizing speed and professional presentation.
+Core Functionality
+
+The application functions as a mobile recording studio and delivery system. Users can view specific role requirements, record their performance using their device's camera, and transmit the final video file to a centralized database accessible by casting agents.
+Key Features
+
+    Role Management: Browse and select specific roles or casting calls that require submissions.
+
+    Video Capture: High-definition video recording optimized for "self-tape" standards, including framing guides to ensure proper headshots and medium shots.
+
+    Direct Submission: Integrated upload protocols that send videos directly to the relevant casting director without needing external email or cloud storage links.
+
+    User Profiles: Storage for actor bios, headshots, and contact information that automatically attaches to every video submission.
+
+    Review and Edit: Basic trimming tools to ensure the audition starts and ends exactly when the actor intends, removing unnecessary setup or "slate" time.
+
+Technical Specifications
+
+The .apk file is built for the Android ecosystem to leverage mobile camera hardware and high-speed data connections for large file transfers.
+
+    Compression: Uses efficient codecs to maintain visual clarity while reducing file size for faster uploads.
+
+    Security: Secure transmission protocols to protect the privacy of the performer and the proprietary nature of the audition scripts (sides).
+
+    Compatibility: Designed for Android smartphones to allow for auditions on the go, whether at home or in a quiet location.
+
+User Experience
+
+The interface is streamlined to minimize friction. An actor logs in, selects the project they are auditioning for, reads the provided script on-screen, and hits record. Once satisfied with the take, a single "Submit" action handles the metadata tagging and delivery, ensuring the casting director receives a polished, identified package.
+
+The sizzlr.apk is built as an aid for casting directors to capture preformances from actors on their personal cellphones, lets actors records video (as many takes as they like, choose the best take, send the video to the casting directors, delete the old takes when more space is needed, securely. 
+
+see http://tek.chaosnet.org/sizzle/ for a preview. 

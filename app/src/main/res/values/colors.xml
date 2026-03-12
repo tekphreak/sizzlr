@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Zinc scale (matches Tailwind zinc) -->
+    <color name="zinc_200">#E4E4E7</color>
+    <color name="zinc_300">#D1D5DB</color>
+    <color name="zinc_400">#A1A1AA</color>
+    <color name="zinc_600">#52525B</color>
+    <color name="zinc_700">#3F3F46</color>
+    <color name="zinc_800">#27272A</color>
+    <color name="zinc_900">#18181B</color>
+
+    <!-- Accent colors -->
+    <color name="amber_500">#F59E0B</color>
+    <color name="amber_600">#D97706</color>
+    <color name="red_700">#B91C1C</color>
+    <color name="green_600">#16A34A</color>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>
