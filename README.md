@@ -19,7 +19,7 @@ An Android audition recorder for actors. Record HD video clips on your phone and
 
 | Idle | Recording | Review | Submitted |
 |------|-----------|--------|-----------|
-| Face guide + ACTION button | ON AIR indicator + CUT button | Retake or Submit Tape | Tape Submitted card |
+| ![Idle](screenshots/01_idle.png) | ![Recording](screenshots/02_recording.png) | ![Review](screenshots/03_review.png) | ![Submitted](screenshots/04_submitted.png) |
 
 ## Requirements
 
