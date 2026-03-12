@@ -43,75 +43,100 @@ class FaceGuideView @JvmOverloads constructor(
     private fun sx(x: Float, w: Int) = x / 100f * w
     private fun sy(y: Float, h: Int) = y / 100f * h
 
+    // All coordinates are in a 0–100 × 0–100 space, scaled to view pixels by sx/sy.
+    //
+    // Human proportions used:
+    //   Top of cranium  y=8
+    //   Temple / brow   y=28  x=27–73  (widest cranium point)
+    //   Cheekbones      y=46  x=24–76  (widest face point)
+    //   Jaw corners     y=67  x=36–64
+    //   Chin centre     y=83  (rounded arc, NOT a single point)
+    //   Eye level       y=38  (~40 % of face height below top)
+    //   Nose base       y=58  (~65 % of face height)
+    //   Mouth           y=70  (~80 % of face height)
+
     private fun buildFacePath(w: Int, h: Int): Path = Path().apply {
-        // M32,30 C32,10 68,10 68,30 V50 C68,75 50,90 50,90 C50,90 32,75 32,50 Z
-        moveTo(sx(32f, w), sy(30f, h))
+        // Start: left temple
+        moveTo(sx(27f, w), sy(28f, h))
+        // ── Dome of skull to right temple ──────────────────────────────────
         cubicTo(
-            sx(32f, w), sy(10f, h),
-            sx(68f, w), sy(10f, h),
-            sx(68f, w), sy(30f, h)
+            sx(26f, w), sy(8f, h),
+            sx(74f, w), sy(8f, h),
+            sx(73f, w), sy(28f, h)
         )
-        lineTo(sx(68f, w), sy(50f, h))
+        // ── Right side: temple → cheekbone → jaw corner ────────────────────
         cubicTo(
-            sx(68f, w), sy(75f, h),
-            sx(50f, w), sy(90f, h),
-            sx(50f, w), sy(90f, h)
+            sx(77f, w), sy(40f, h),   // cheekbone flare
+            sx(74f, w), sy(58f, h),   // cheek taper
+            sx(64f, w), sy(67f, h)    // jaw corner
         )
+        // ── Right jaw corner → right chin ──────────────────────────────────
         cubicTo(
-            sx(50f, w), sy(90f, h),
-            sx(32f, w), sy(75f, h),
-            sx(32f, w), sy(50f, h)
+            sx(60f, w), sy(76f, h),
+            sx(56f, w), sy(83f, h),
+            sx(50f, w), sy(84f, h)    // chin centre — rounded, not a point
+        )
+        // ── Left chin → left jaw corner ────────────────────────────────────
+        cubicTo(
+            sx(44f, w), sy(83f, h),
+            sx(40f, w), sy(76f, h),
+            sx(36f, w), sy(67f, h)    // jaw corner
+        )
+        // ── Left jaw corner → cheekbone → temple ───────────────────────────
+        cubicTo(
+            sx(26f, w), sy(58f, h),   // cheek taper
+            sx(23f, w), sy(40f, h),   // cheekbone flare
+            sx(27f, w), sy(28f, h)    // back to start
         )
         close()
     }
 
     private fun buildLeftEarPath(w: Int, h: Int): Path = Path().apply {
-        // M32,40 C28,40 28,55 32,55
-        moveTo(sx(32f, w), sy(40f, h))
+        // Ear sits at cheekbone level (y 36–52), just outside the face edge (x≈27)
+        moveTo(sx(27f, w), sy(36f, h))
         cubicTo(
-            sx(28f, w), sy(40f, h),
-            sx(28f, w), sy(55f, h),
-            sx(32f, w), sy(55f, h)
+            sx(21f, w), sy(36f, h),
+            sx(21f, w), sy(52f, h),
+            sx(27f, w), sy(52f, h)
         )
     }
 
     private fun buildRightEarPath(w: Int, h: Int): Path = Path().apply {
-        // M68,40 C72,40 72,55 68,55
-        moveTo(sx(68f, w), sy(40f, h))
+        moveTo(sx(73f, w), sy(36f, h))
         cubicTo(
-            sx(72f, w), sy(40f, h),
-            sx(72f, w), sy(55f, h),
-            sx(68f, w), sy(55f, h)
+            sx(79f, w), sy(36f, h),
+            sx(79f, w), sy(52f, h),
+            sx(73f, w), sy(52f, h)
         )
     }
 
     private fun buildLeftEyePath(w: Int, h: Int): Path = Path().apply {
-        // M38,45 Q42,42 46,45 Q42,48 38,45
-        moveTo(sx(38f, w), sy(45f, h))
-        quadTo(sx(42f, w), sy(42f, h), sx(46f, w), sy(45f, h))
-        quadTo(sx(42f, w), sy(48f, h), sx(38f, w), sy(45f, h))
+        // Left eye centred at (40, 38), width ≈ 11 units
+        moveTo(sx(34f, w), sy(38f, h))
+        quadTo(sx(40f, w), sy(33f, h), sx(46f, w), sy(38f, h))
+        quadTo(sx(40f, w), sy(43f, h), sx(34f, w), sy(38f, h))
     }
 
     private fun buildRightEyePath(w: Int, h: Int): Path = Path().apply {
-        // M54,45 Q58,42 62,45 Q58,48 54,45
-        moveTo(sx(54f, w), sy(45f, h))
-        quadTo(sx(58f, w), sy(42f, h), sx(62f, w), sy(45f, h))
-        quadTo(sx(58f, w), sy(48f, h), sx(54f, w), sy(45f, h))
+        // Right eye centred at (60, 38), width ≈ 11 units
+        moveTo(sx(54f, w), sy(38f, h))
+        quadTo(sx(60f, w), sy(33f, h), sx(66f, w), sy(38f, h))
+        quadTo(sx(60f, w), sy(43f, h), sx(54f, w), sy(38f, h))
     }
 
     private fun buildNosePath(w: Int, h: Int): Path = Path().apply {
-        // M50,45 V58 L47,61  +  M53,61 L50,58
-        moveTo(sx(50f, w), sy(45f, h))
-        lineTo(sx(50f, w), sy(58f, h))
-        lineTo(sx(47f, w), sy(61f, h))
-        moveTo(sx(53f, w), sy(61f, h))
-        lineTo(sx(50f, w), sy(58f, h))
+        // Bridge drops from between the eyes; nostrils flare slightly at base
+        moveTo(sx(50f, w), sy(41f, h))
+        lineTo(sx(50f, w), sy(57f, h))
+        lineTo(sx(46f, w), sy(61f, h))   // left nostril
+        moveTo(sx(54f, w), sy(61f, h))   // right nostril
+        lineTo(sx(50f, w), sy(57f, h))
     }
 
     private fun buildMouthPath(w: Int, h: Int): Path = Path().apply {
-        // M42,72 Q50,76 58,72
-        moveTo(sx(42f, w), sy(72f, h))
-        quadTo(sx(50f, w), sy(76f, h), sx(58f, w), sy(72f, h))
+        // Lips — wider than before to match cheekbone width
+        moveTo(sx(40f, w), sy(70f, h))
+        quadTo(sx(50f, w), sy(75f, h), sx(60f, w), sy(70f, h))
     }
 
     override fun onDraw(canvas: Canvas) {
