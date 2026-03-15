@@ -1,5 +1,20 @@
 # Sizzlr
 
+
+Your Performance Is Human
+In a world where AI-generated faces and voices are rising, the industry needs the raw, unedited truth of a real human performance. Technology can mimic, but it cannot replace the soul you bring to a character. Our app ensures that casting directors see the real you, without the friction of a complicated setup.
+
+Features Built for the Craft
+ * Integrated Script Display: Read your sides directly on the screen while recording. Maintain perfect eye line with the front-facing camera every time.
+ * Pro-Grade MP4 Output: High-quality video files ready for immediate submission to agencies like Central Casting.
+ * Seamless Workflow: Capture, review, and send your audition in one fluid motion.
+
+Stand Out to Casting Directors
+
+Casting agencies are looking for authentic talent to anchor the films of tomorrow. This app is designed to bridge the gap between your living room and the big screen, providing a professional technical foundation so you can focus entirely on the scene.
+Stop fighting with your hardware and start focusing on your performance.
+
+
 An Android audition recorder for actors. Record HD video clips on your phone and submit them directly to casting directors — no email, no cloud links, no friction.
 
 **Live preview:** http://tek.chaosnet.org/sizzle/
