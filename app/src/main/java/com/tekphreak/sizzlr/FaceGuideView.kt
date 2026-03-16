@@ -1,4 +1,4 @@
-package org.chaosnet.sizzlr
+package com.tekphreak.sizzlr
 
 import android.content.Context
 import android.graphics.Canvas

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "org.chaosnet.sizzlr"
+    namespace = "com.tekphreak.sizzlr"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "org.chaosnet.sizzlr"
+        applicationId = "com.tekphreak.sizzlr"
         minSdk = 26
         targetSdk = 34
         versionCode = 1

@@ -20,47 +20,69 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.12"
+            android:text="SELF-TAPE"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.12"
-                android:text="CASTING CALL "
-                android:textColor="@color/white"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:letterSpacing="0.12"
-                android:text="ONLINE"
-                android:textColor="@color/amber_500"
-                android:textSize="17sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:background="@drawable/circle_green"
-            android:layout_marginEnd="6dp" />
-
-        <TextView
+        <!-- CUT — visible during recording -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnStop"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:letterSpacing="0.1"
-            android:text="STUDIO A"
-            android:textColor="@color/zinc_400"
-            android:textSize="11sp" />
+            android:layout_height="34dp"
+            android:layout_marginEnd="8dp"
+            android:text="CUT"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:backgroundTint="@color/zinc_700"
+            app:cornerRadius="6dp"
+            app:strokeColor="@color/zinc_600"
+            app:strokeWidth="1dp" />
+
+        <!-- Retake — visible during review -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRetake"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginEnd="6dp"
+            android:text="Retake"
+            android:textColor="@color/zinc_300"
+            android:textSize="12sp"
+            android:visibility="gone"
+            app:backgroundTint="@color/zinc_700"
+            app:cornerRadius="6dp"
+            app:strokeColor="@color/zinc_600"
+            app:strokeWidth="1dp" />
+
+        <!-- Submit Tape — visible during review -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSubmit"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginEnd="8dp"
+            android:text="Submit Tape"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:backgroundTint="@color/amber_600"
+            app:cornerRadius="6dp" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_settings"
+            android:contentDescription="Settings" />
 
     </LinearLayout>
 
@@ -75,18 +97,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/header">
 
-        <!-- Live camera preview (front camera shows mirrored by default) -->
         <androidx.camera.view.PreviewView
             android:id="@+id/viewFinder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:scaleType="fillCenter" />
 
-        <!-- Face alignment guide overlay -->
-        <org.chaosnet.sizzlr.FaceGuideView
+        <com.tekphreak.sizzlr.FaceGuideView
             android:id="@+id/faceGuide"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <!-- Countdown overlay -->
+        <TextView
+            android:id="@+id/countdownText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="140sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:background="#CC000000"
+            android:visibility="gone" />
 
         <!-- REC / ON AIR indicator -->
         <LinearLayout
@@ -130,8 +162,38 @@
 
     </FrameLayout>
 
-    <!-- ── Controls panel ────────────────────────────────────────────────── -->
+    <!--
+        Teleprompter ScrollView is a direct ConstraintLayout child — NOT inside
+        the NestedScrollView — so it gets a proper bounded height and the
+        ValueAnimator scroll works correctly.
+    -->
+    <ScrollView
+        android:id="@+id/teleprompterScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/zinc_900"
+        android:scrollbars="none"
+        android:overScrollMode="never"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/viewportContainer"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/teleprompterText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp"
+            android:lineSpacingMultiplier="1.6"
+            android:textColor="@color/zinc_200"
+            android:textSize="22sp" />
+
+    </ScrollView>
+
+    <!-- ── Controls panel (idle / review / success) ──────────────────────── -->
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/controlsScrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
@@ -141,14 +203,16 @@
         app:layout_constraintTop_toBottomOf="@id/viewportContainer">
 
         <LinearLayout
+            android:id="@+id/controlsInner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/zinc_800"
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Audition script teleprompter -->
+            <!-- Audition script display -->
             <FrameLayout
+                android:id="@+id/scriptBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp">
@@ -195,55 +259,6 @@
                 app:cornerRadius="8dp"
                 app:iconGravity="textStart"
                 app:iconPadding="10dp" />
-
-            <!-- CUT (Stop) button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnStop"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginBottom="10dp"
-                android:text="CUT  (Stop)"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:visibility="gone"
-                app:backgroundTint="@color/zinc_700"
-                app:cornerRadius="8dp" />
-
-            <!-- Retake + Submit row -->
-            <LinearLayout
-                android:id="@+id/actionButtons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnRetake"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:text="Retake"
-                    android:textColor="@color/zinc_300"
-                    app:backgroundTint="@color/zinc_700"
-                    app:cornerRadius="8dp"
-                    app:strokeColor="@color/zinc_600"
-                    app:strokeWidth="1dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSubmit"
-                    android:layout_width="0dp"
-                    android:layout_height="52dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:text="Submit Tape"
-                    android:textColor="@color/white"
-                    android:textStyle="bold"
-                    app:backgroundTint="@color/amber_600"
-                    app:cornerRadius="8dp" />
-
-            </LinearLayout>
 
             <!-- Success card -->
             <LinearLayout

@@ -1,34 +1,37 @@
 # Sizzlr
 
+<p align="center">
+  <img src="sizzlr-app-logo.png" width="160" alt="Sizzlr app icon" />
+</p>
 
-Your Performance Is Human
-In a world where AI-generated faces and voices are rising, the industry needs the raw, unedited truth of a real human performance. Technology can mimic, but it cannot replace the soul you bring to a character. Our app ensures that casting directors see the real you, without the friction of a complicated setup.
+<p align="center"><strong>Your Performance Is Human</strong></p>
 
-Features Built for the Craft
- * Integrated Script Display: Read your sides directly on the screen while recording. Maintain perfect eye line with the front-facing camera every time.
- * Pro-Grade MP4 Output: High-quality video files ready for immediate submission to agencies like Central Casting.
- * Seamless Workflow: Capture, review, and send your audition in one fluid motion.
-
-Stand Out to Casting Directors
-
-Casting agencies are looking for authentic talent to anchor the films of tomorrow. This app is designed to bridge the gap between your living room and the big screen, providing a professional technical foundation so you can focus entirely on the scene.
-Stop fighting with your hardware and start focusing on your performance.
-
-
-An Android audition recorder for actors. Record HD video clips on your phone and submit them directly to casting directors — no email, no cloud links, no friction.
-
-**Live preview:** http://tek.chaosnet.org/sizzle/
+In a world where AI-generated faces and voices are rising, the industry needs the raw, unedited truth of a real human performance. Technology can mimic, but it cannot replace the soul you bring to a character. Sizzlr ensures that casting directors see the real you — without the friction of a complicated setup.
 
 ---
 
 ## Features
 
-- **Face-alignment guide** — dotted face schematic overlay so you nail the headshot/medium-shot framing every take
+- **Auto-scrolling teleprompter** — load your script from any `.txt`, `.md`, or `.html` file and watch it scroll hands-free while you perform; position it above or below the camera
+- **5–4–3–2–1 countdown** — audible beep on each count so you're never caught off-guard, silence on 1 so you ease into the scene
+- **Face-alignment guide** — dotted overlay so you nail the headshot/medium-shot framing every take
 - **Front camera recording** — HD video with audio, mirrored preview so it feels natural
 - **ON AIR indicator** — pulsing red dot and live timer while recording
+- **Submit via email** — tap Submit Tape to share the clip directly to your configured casting director email
 - **On-device save** — clips saved automatically to `Movies/Sizzlr/` in your gallery
 - **Retake flow** — record as many takes as you want, keep the best one
-- **Dark cinema theme** — matches the Casting Call Online aesthetic
+- **Dark cinema theme** — clean dark UI that keeps focus on the viewfinder
+
+## Settings
+
+| Setting | Description |
+|---------|-------------|
+| Submission email | Email address the video is sent to (default: your casting contact) |
+| Scroll speed | 1–10 slider controlling teleprompter px/sec |
+| Font size | 16–36 sp range |
+| Text theme | White on black (default) or Black on white |
+| Teleprompter position | Below camera (default) or above camera |
+| Script | Paste directly or load any `.txt` / `.md` / `.html` file |
 
 ## Screens
 
@@ -45,6 +48,7 @@ An Android audition recorder for actors. Record HD video clips on your phone and
 
 ```bash
 export ANDROID_HOME=/path/to/Android/sdk
+export JAVA_HOME=/path/to/jdk
 ./gradlew assembleDebug
 # APK → app/build/outputs/apk/debug/app-debug.apk
 ```
@@ -52,7 +56,7 @@ export ANDROID_HOME=/path/to/Android/sdk
 Install to a connected device:
 
 ```bash
-./gradlew installDebug
+adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
 ## Tech Stack
@@ -66,10 +70,15 @@ Install to a connected device:
 
 ```
 app/src/main/
-├── java/org/chaosnet/sizzlr/
-│   ├── MainActivity.kt      # Camera setup, recording state machine
+├── java/com/tekphreak/sizzlr/
+│   ├── SplashActivity.kt    # 3-second branded launch screen
+│   ├── MainActivity.kt      # Camera setup, recording state machine, teleprompter
+│   ├── SettingsActivity.kt  # Script, email, speed, font, theme, position
 │   └── FaceGuideView.kt     # Custom Canvas overlay (face alignment guide)
 └── res/
-    ├── layout/activity_main.xml
+    ├── layout/
+    │   ├── activity_splash.xml
+    │   ├── activity_main.xml
+    │   └── activity_settings.xml
     └── values/colors.xml    # Zinc/amber design tokens
 ```
